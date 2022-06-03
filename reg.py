@@ -1,7 +1,6 @@
 # %%
 import cv2 as cv
 import tifffile as tf
-import matplotlib.pyplot as plt
 import numpy as np
 from util import global_registration, create_image_block_stack, blocks_registration, calculate_MI, calculate_MSD, calculate_NCC, calculate_NMI
 import warnings

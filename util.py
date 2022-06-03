@@ -1,9 +1,7 @@
 # %%
 import cv2 as cv
-import tifffile as tf
 import matplotlib.pyplot as plt
 from skimage.transform import warp
-import scipy.optimize as opt
 import numpy as np
 # %%
 
