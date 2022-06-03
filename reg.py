@@ -24,7 +24,7 @@ class args(object):
     pyramid_max_try = 5  # (1,inf)
 
     show_global_fig = False
-    show_pyramid_fig = False
+    show_pyramid_fig = True
 
 
 para = args()
