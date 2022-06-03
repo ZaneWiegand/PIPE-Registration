@@ -9,7 +9,6 @@ import numpy as np
 
 
 def create_image_block_stack(img, row, col):
-    # 采用补零法，将图片分成row*col块
     imgsize_row, imgsize_col = img.shape[0], img.shape[1]
     blocksize_row = int(np.ceil(imgsize_row / row))
     blocksize_col = int(np.ceil(imgsize_col / col))
@@ -88,13 +87,12 @@ def n_CMM(CMM, PPMCC_max, PPMCC_min):
     return nCMM
 
 
-def blocks_registration(obj_stack, ref_stack, target, method, flag=False):
+def blocks_registration(obj_stack, ref_stack, target, method, r, flag=False):
     num_row, num_col, nr, nc = ref_stack.shape
     CMM_stack = np.zeros_like(ref_stack)
     nCMM_stack = np.zeros_like(ref_stack)
     r_shift_stack = np.zeros([num_row, num_col, 1, 1])
     c_shift_stack = np.zeros([num_row, num_col, 1, 1])
-    # pcov_stack = np.zeros([num_row, num_col, 5, 5])
     for i in range(num_row):
         for j in range(num_col):
             obj_copy = obj_stack[i, j, :, :]
@@ -123,7 +121,6 @@ def blocks_registration(obj_stack, ref_stack, target, method, flag=False):
 
             nCMM_stack_single = nCMM_stack[i, j, :, :]
 
-            r = 5
             z = nCMM_stack_single[nr//2-r:nr//2+r+1, nc//2-r:nc//2+r+1]
             y = np.linspace(-r, r, 2*r+1)
             x = np.linspace(-r, r, 2*r+1)

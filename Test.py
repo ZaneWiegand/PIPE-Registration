@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from util import global_registration, create_image_block_stack, blocks_registration, calculate_MI, calculate_MSD, calculate_NCC, calculate_NMI
 import warnings
-warnings.filterwarnings("ignore")  # 忽略警告
+warnings.filterwarnings("ignore")
 print("OK!")
 # %%
 #!############################################################################################
@@ -47,7 +47,7 @@ new = pic10x_ex_cut
 target = pic20x
 # %%
 # * method = "SIFT","ORB","KAZE","AKAZE","BRISK","nCCM"
-global_method = "SIFT"
+global_method = "nCCM"
 warp_img = global_registration(new, target, global_method, True)
 first_warp_img = warp_img
 # %%
@@ -56,6 +56,7 @@ block_col_ini = block_col = 1
 target_block_stack = create_image_block_stack(target, block_row, block_col)
 # %%
 threshold = 0.25
+r = 5
 layer = 16
 layer_state = np.ones(layer)
 warp_img_layer = np.zeros([warp_img.shape[0], warp_img.shape[1], layer])
@@ -77,13 +78,13 @@ for i in range(layer):
         warp_block_stack = create_image_block_stack(
             warp_img, block_row, block_col)
         warp_img, rmax_shift, cmax_shift, rtmap, ctmap = blocks_registration(
-            warp_block_stack, target_block_stack, target, method, False
+            warp_block_stack, target_block_stack, target, method, r, False
         )
         print("第{}层位移: (r = {}, c = {})".format(i + 1, rmax_shift, cmax_shift))
         count += 1
         rtmap += rtmap
         ctmap += ctmap
-        if (count >= 4) and (rtmap.any() >= 1 or ctmap.any() >= 1):
+        if (count >= 6) and (rtmap.any() >= 1 or ctmap.any() >= 1):
             layer_state[i] = 0
             warp_img = warp_img_layer[:, :, i]
             target = target_img_layer[:, :, i]
