@@ -32,7 +32,7 @@ para = args()
 # %%
 #!############################################################################################
 #!############################################################################################
-#! 主程序开始
+#!主程序开始
 new = tf.imread(para.float_img_path).astype(np.uint8)
 refer = tf.imread(para.refer_img_path).astype(np.uint8)
 # %%
@@ -86,23 +86,10 @@ for i in range(layer):
 
     target_block_stack = create_image_block_stack(target, block_row, block_col)
 # %%
-plt.figure(figsize=(10, 10))
-plt.imshow(np.abs(first_warp_img - warp_img))
-plt.axis("off")
-plt.show()
-target = refer
-# %%
-print(calculate_MI(target, first_warp_img))
-print(calculate_MI(target, warp_img))
-# %%
-print(calculate_NCC(target, first_warp_img))
-print(calculate_NCC(target, warp_img))
-# %%
-print(calculate_NMI(target, first_warp_img))
-print(calculate_NMI(target, warp_img))
-# %%
-print(calculate_MSD(target, first_warp_img))
-print(calculate_MSD(target, warp_img))
+print('MI: {}'.format(calculate_MI(target, warp_img)))
+print('NCC: {}'.format(calculate_NCC(target, warp_img)))
+print('NMI: {}'.format(calculate_NMI(target, warp_img)))
+print('MSD: {}'.format(calculate_MSD(target, warp_img)))
 # %%
 tup = [(i, layer_state[i]) for i in range(len(layer_state))]
 k = np.max([j for j, n in tup if n == 1])
