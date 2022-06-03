@@ -14,7 +14,7 @@ class args(object):
     refer_img_path = 'refer_img.tif'
     save_img_path = 'save_img.tif'
 
-    # method = "SIFT","ORB","KAZE","AKAZE","BRISK","nCCM"
+    # method = "SIFT","KAZE","AKAZE","BRISK","ORB","nCCM"
     global_registration_method = 'SIFT'
 
     pyramid_threshold = 0.25  # (0,1)
