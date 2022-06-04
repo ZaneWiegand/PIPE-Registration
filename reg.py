@@ -10,9 +10,11 @@ print("OK!")
 
 
 class args(object):
+
     float_img_path = 'float_img.tif'
     refer_img_path = 'refer_img.tif'
     save_img_path = 'save_img.tif'
+    image_type = np.uint16  # np.uint8/np.uint16
 
     # method = "SIFT","KAZE","AKAZE","BRISK","ORB","nCCM"
     global_registration_method = 'SIFT'
@@ -24,7 +26,7 @@ class args(object):
     pyramid_max_try = 5  # (1,inf)
 
     show_global_fig = False
-    show_pyramid_fig = True
+    show_pyramid_fig = False
 
 
 para = args()
@@ -32,8 +34,8 @@ para = args()
 #!############################################################################################
 #!############################################################################################
 #!主程序开始
-new = tf.imread(para.float_img_path).astype(np.uint8)
-refer = tf.imread(para.refer_img_path).astype(np.uint8)
+new = tf.imread(para.float_img_path).astype(para.image_type)
+refer = tf.imread(para.refer_img_path).astype(para.image_type)
 # %%
 global_method = para.global_registration_method
 target = refer
@@ -74,7 +76,7 @@ for i in range(layer):
         count += 1
         rtmap += rtmap
         ctmap += ctmap
-        if (count > para.pyramid_max_try) and (rtmap.any() >= 1 or ctmap.any() >= 1):
+        if (count >= para.pyramid_max_try) and (rtmap.any() >= 1 or ctmap.any() >= 1):
             layer_state[i] = 0
             warp_img = warp_img_layer[:, :, i]
             target = target_img_layer[:, :, i]
@@ -85,10 +87,16 @@ for i in range(layer):
 
     target_block_stack = create_image_block_stack(target, block_row, block_col)
 # %%
+# warp_img
 print('MI: {}'.format(calculate_MI(target, warp_img)))
 print('NCC: {}'.format(calculate_NCC(target, warp_img)))
 print('NMI: {}'.format(calculate_NMI(target, warp_img)))
 print('MSD: {}'.format(calculate_MSD(target, warp_img)))
+# first_warp_img
+# print('MI: {}'.format(calculate_MI(target, first_warp_img)))
+# print('NCC: {}'.format(calculate_NCC(target, first_warp_img)))
+# print('NMI: {}'.format(calculate_NMI(target, first_warp_img)))
+# print('MSD: {}'.format(calculate_MSD(target, first_warp_img)))
 # %%
 tup = [(i, layer_state[i]) for i in range(len(layer_state))]
 k = np.max([j for j, n in tup if n == 1])
@@ -105,4 +113,4 @@ for j, n in tup:
             )
         )
 # %%
-tf.imwrite(para.save_img_path, warp_img.astype(np.uint8))
+tf.imwrite(para.save_img_path, warp_img.astype(para.image_type))

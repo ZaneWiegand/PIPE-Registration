@@ -230,7 +230,7 @@ def blocks_registration(obj_stack, ref_stack, target, method, r, flag=False):
     )
 
 
-def global_registration(obj, ref, method, flag=False):
+def global_registration(_obj_, _ref_, method, flag=False):
     # TODO: SIFT
     if method == "SIFT":
         global_form = cv.SIFT_create()
@@ -246,11 +246,13 @@ def global_registration(obj, ref, method, flag=False):
         obj_block_stack = create_image_block_stack(obj, 1, 1)
         ref_block_stack = create_image_block_stack(ref, 1, 1)
         warp_img, _, _, _, _ = blocks_registration(
-            obj_block_stack, ref_block_stack, ref, cv.INTER_LINEAR, flag
+            obj_block_stack, ref_block_stack, ref, cv.INTER_CUBIC, flag
         )
         return warp_img
     else:
         return "ERROR"
+    obj = _obj_.astype(np.uint8)
+    ref = _ref_.astype(np.uint8)
     kp1, des1 = global_form.detectAndCompute(obj, None)
     kp2, des2 = global_form.detectAndCompute(ref, None)
     bf = cv.BFMatcher()
@@ -300,8 +302,8 @@ def global_registration(obj, ref, method, flag=False):
     H, status = cv.findHomography(
         ref_matched_kpts, sensed_matched_kpts, cv.RANSAC, 5.0)
     warp_img = cv.warpPerspective(
-        obj, H, (ref.shape[1], ref.shape[0]
-                 ), borderMode=cv.BORDER_REPLICATE
+        _obj_, H, (ref.shape[1], ref.shape[0]
+                   ), borderMode=cv.BORDER_REPLICATE
     )
     # TODO: SIFT end
     return warp_img
