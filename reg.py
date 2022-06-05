@@ -87,12 +87,12 @@ for i in range(layer):
 
     target_block_stack = create_image_block_stack(target, block_row, block_col)
 # %%
-# warp_img
+# # warp_img
 print('MI: {}'.format(calculate_MI(target, warp_img)))
 print('NCC: {}'.format(calculate_NCC(target, warp_img)))
 print('NMI: {}'.format(calculate_NMI(target, warp_img)))
 print('MSD: {}'.format(calculate_MSD(target, warp_img)))
-# first_warp_img
+# # first_warp_img
 # print('MI: {}'.format(calculate_MI(target, first_warp_img)))
 # print('NCC: {}'.format(calculate_NCC(target, first_warp_img)))
 # print('NMI: {}'.format(calculate_NMI(target, first_warp_img)))
