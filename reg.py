@@ -20,13 +20,13 @@ class args(object):
     global_registration_method = 'SIFT'
 
     pyramid_threshold = 0.25  # (0,1)
-    pyramid_layer = 16  # (1,inf)
+    pyramid_layer = 15  # (1,inf)
     pyramid_gaussian_range = 5
     pyramid_interp_method = cv.INTER_CUBIC
-    pyramid_max_try = 5  # (1,inf)
+    pyramid_max_try = 10  # (1,inf)
 
     show_global_fig = False
-    show_pyramid_fig = True
+    show_pyramid_fig = False
 
 
 para = args()
@@ -88,15 +88,15 @@ for i in range(layer):
     target_block_stack = create_image_block_stack(target, block_row, block_col)
 # %%
 # # warp_img
-print('MI: {}'.format(calculate_MI(target, warp_img)))
-print('NCC: {}'.format(calculate_NCC(target, warp_img)))
-print('NMI: {}'.format(calculate_NMI(target, warp_img)))
-print('MSD: {}'.format(calculate_MSD(target, warp_img)))
+print('MI: {}'.format(calculate_MI(refer, warp_img)))
+print('NCC: {}'.format(calculate_NCC(refer, warp_img)))
+print('NMI: {}'.format(calculate_NMI(refer, warp_img)))
+print('MSD: {}'.format(calculate_MSD(refer, warp_img)))
 # # first_warp_img
-# print('MI: {}'.format(calculate_MI(target, first_warp_img)))
-# print('NCC: {}'.format(calculate_NCC(target, first_warp_img)))
-# print('NMI: {}'.format(calculate_NMI(target, first_warp_img)))
-# print('MSD: {}'.format(calculate_MSD(target, first_warp_img)))
+print('MI: {}'.format(calculate_MI(refer, first_warp_img)))
+print('NCC: {}'.format(calculate_NCC(refer, first_warp_img)))
+print('NMI: {}'.format(calculate_NMI(refer, first_warp_img)))
+print('MSD: {}'.format(calculate_MSD(refer, first_warp_img)))
 # %%
 tup = [(i, layer_state[i]) for i in range(len(layer_state))]
 k = np.max([j for j, n in tup if n == 1])
