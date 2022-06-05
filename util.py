@@ -47,7 +47,7 @@ def fft_CMM(f, g):
     G = np.fft.fft2(g)
     xx = F * np.conj(G)
     CMMmap = np.fft.fftshift(np.fft.ifft2(xx))
-    return np.abs(CMMmap)
+    return np.real(CMMmap)
 
 
 def PPMCC(obj, ref, r, c):
@@ -77,10 +77,7 @@ def PPMCC(obj, ref, r, c):
 
 
 def n_CMM(CMM, PPMCC_max, PPMCC_min):
-    if np.max(CMM) == np.min(CMM):
-        nCMM = CMM / (np.max(CMM)+1e-8)
-    else:
-        nCMM = (CMM - np.min(CMM)) / (np.max(CMM) - np.min(CMM))
+    nCMM = (CMM - np.min(CMM)) / (np.max(CMM) - np.min(CMM)+1e-8)
     nCMM = nCMM * (PPMCC_max - PPMCC_min) + PPMCC_min
     return nCMM
 
