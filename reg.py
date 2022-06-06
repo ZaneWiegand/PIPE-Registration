@@ -11,21 +11,33 @@ print("OK!")
 
 class args(object):
 
+    # 待配准图像路径
     float_img_path = 'float_img.tif'
+    # 参考图像路径
     refer_img_path = 'refer_img.tif'
+    # 保存图像路径
     save_img_path = 'save_img.tif'
+    # 选择图片的类型，8位或者16位
     image_type = np.uint16  # np.uint8/np.uint16
 
+    # 选择粗配准的方法，优先级SIFT>KAZE>AKAZE>BRISK>ORB>nCCM
     # method = "SIFT","KAZE","AKAZE","BRISK","ORB","nCCM"
     global_registration_method = 'SIFT'
 
+    # 细配准最小位移阈值，默认采用0.25
     pyramid_threshold = 0.25  # (0,1)
+    # 细配准分层数量，默认划分15层
     pyramid_layer = 15  # (1,inf)
+    # 高斯拟合计算范围，用于生成位移矢量，默认为5
     pyramid_gaussian_range = 5
+    # 位移矢量的插值方法，默认采用双三次插值
     pyramid_interp_method = cv.INTER_CUBIC
+    # 一层最大尝试次数，默认为10
     pyramid_max_try = 10  # (1,inf)
 
+    # 仅显示粗配准的中间结果，不影响配准最终结果，默认为False
     show_global_fig = False
+    # 仅显示细配准的中间结果，不影响配准最终结果，默认为False
     show_pyramid_fig = False
 
 
@@ -93,10 +105,10 @@ print('NCC: {}'.format(calculate_NCC(refer, warp_img)))
 print('NMI: {}'.format(calculate_NMI(refer, warp_img)))
 print('MSD: {}'.format(calculate_MSD(refer, warp_img)))
 # # first_warp_img
-print('MI: {}'.format(calculate_MI(refer, first_warp_img)))
-print('NCC: {}'.format(calculate_NCC(refer, first_warp_img)))
-print('NMI: {}'.format(calculate_NMI(refer, first_warp_img)))
-print('MSD: {}'.format(calculate_MSD(refer, first_warp_img)))
+# print('MI: {}'.format(calculate_MI(refer, first_warp_img)))
+# print('NCC: {}'.format(calculate_NCC(refer, first_warp_img)))
+# print('NMI: {}'.format(calculate_NMI(refer, first_warp_img)))
+# print('MSD: {}'.format(calculate_MSD(refer, first_warp_img)))
 # %%
 tup = [(i, layer_state[i]) for i in range(len(layer_state))]
 k = np.max([j for j, n in tup if n == 1])
